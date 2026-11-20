@@ -157,7 +157,7 @@
       transition: border-color 180ms ease-out;
     }
     .ledger-strip.is-filtered {
-      border-color: rgba(56, 189, 248, 0.55);
+      border-color: var(--c1-blue);
     }
     .ledger-cell {
       padding: 14px 18px;
@@ -223,8 +223,8 @@
     }
     .tab-btn[aria-selected="true"] {
       color: var(--c1-blue);
-      background: rgba(56, 189, 248, 0.14);
-      border-color: rgba(56, 189, 248, 0.42);
+      background: rgba(15, 82, 186, 0.12);
+      border-color: var(--c1-blue);
     }
     .filter-bar {
       display: flex;
@@ -254,12 +254,12 @@
     .action-btn {
       cursor: pointer;
       color: var(--c1-blue);
-      border-color: rgba(56, 189, 248, 0.4);
-      background: rgba(56, 189, 248, 0.1);
+      border-color: var(--c1-blue);
+      background: rgba(15, 82, 186, 0.08);
       font-weight: 600;
     }
     .action-btn:hover:not(:disabled) {
-      background: rgba(56, 189, 248, 0.2);
+      background: rgba(15, 82, 186, 0.16);
     }
     .action-btn:disabled {
       opacity: 0.42;
@@ -269,7 +269,7 @@
       background: var(--surface-raised);
     }
     .action-btn[aria-pressed="true"] {
-      background: rgba(56, 189, 248, 0.24);
+      background: rgba(15, 82, 186, 0.2);
       border-color: var(--c1-blue);
     }
     .status-bar {
@@ -408,7 +408,7 @@
       transition: fill-opacity 150ms ease-out;
     }
     .chart-svg circle.dot:focus-visible {
-      stroke: #f4f7fb;
+      stroke: var(--text-primary);
       stroke-width: 2.5px;
       outline: none;
     }
@@ -506,7 +506,17 @@
       border-inline-end: 1px solid var(--border);
     }
     table.data-table tbody tr:hover td {
-      background: rgba(56, 189, 248, 0.05);
+      background: rgba(15, 82, 186, 0.05);
+    }
+    .ag-theme-quartz, .ag-theme-quartz-dark {
+      --ag-background-color: var(--surface);
+      --ag-foreground-color: var(--text-primary);
+      --ag-header-background-color: var(--surface-raised);
+      --ag-header-foreground-color: var(--text-primary);
+      --ag-odd-row-background-color: var(--surface-raised);
+      --ag-border-color: var(--border);
+      --ag-row-hover-color: rgba(15, 82, 186, 0.08);
+      font-family: "IBM Plex Sans", -apple-system, sans-serif;
     }
     @container (width < 600px) {
       table.data-table, table.data-table thead, table.data-table tbody, table.data-table tr, table.data-table th, table.data-table td {
@@ -903,7 +913,7 @@
           <p class="region-lead">
             Sort, filter, or export all 262 districts with K-Means++ Cluster Persona, demographics, schooling, household assets, water/cooking, remittances, labor commuting, formal salaried %, vulnerability index, OLS residuals, and 2D PCA coordinates.
           </p>
-          <div id="districtGrid" class="ag-theme-quartz-dark" style="height: 520px; width: 100%;"></div>
+          <div id="districtGrid" class="ag-theme-quartz" style="height: 520px; width: 100%;"></div>
         </section>
 
         <section class="layout-region">
@@ -914,7 +924,7 @@
           <p class="region-lead">
             Aggregated indicators across El Salvador's 44 restructured municipalities (Ley Especial para la Reestructuración Municipal).
           </p>
-          <div id="muniGrid" class="ag-theme-quartz-dark" style="height: 430px; width: 100%;"></div>
+          <div id="muniGrid" class="ag-theme-quartz" style="height: 430px; width: 100%;"></div>
         </section>
       </div>
 
@@ -1117,7 +1127,7 @@ ORDER BY remittance_household_pct DESC;
     const fmtInt = (v) => Number(v || 0).toLocaleString("en-US");
     const fmtPct = (v) => `${Number(v || 0).toFixed(1)}%`;
     const fmtDec = (v) => Number(v || 0).toFixed(2);
-    const CLUSTER_COLORS = { 1: "#38bdf8", 2: "#34d399", 3: "#fbbf24", 4: "#f472b6" };
+    const CLUSTER_COLORS = { 1: "var(--c1-blue)", 2: "var(--c2-green)", 3: "var(--c3-amber)", 4: "var(--c4-pink)" };
     const CLUSTER_NAMES = {
       1: "Cluster 1: Metropolitan Tech & High-Capital Hubs",
       2: "Cluster 2: Semi-Urban Commuter & Industrial Corridors",
@@ -1181,20 +1191,20 @@ ORDER BY remittance_household_pct DESC;
 
       xTicks.forEach((t) => {
         const x = sx(t);
-        svg.appendChild(svgEl("line", { x1: x, y1: padT, x2: x, y2: padT + plotH, stroke: "#1e293b", "stroke-width": 1 }));
-        svg.appendChild(svgEl("text", { x, y: padT + plotH + 16, fill: "#9db1cc", "font-size": 11, "text-anchor": "middle" }, t));
+        svg.appendChild(svgEl("line", { x1: x, y1: padT, x2: x, y2: padT + plotH, stroke: "var(--border)", "stroke-width": 1 }));
+        svg.appendChild(svgEl("text", { x, y: padT + plotH + 16, fill: "var(--text-secondary)", "font-size": 11, "text-anchor": "middle" }, t));
       });
       yTicks.forEach((t) => {
         const y = sy(t);
-        svg.appendChild(svgEl("line", { x1: padL, y1: y, x2: padL + plotW, y2: y, stroke: "#1e293b", "stroke-width": 1 }));
-        svg.appendChild(svgEl("text", { x: padL - 8, y: y + 4, fill: "#9db1cc", "font-size": 11, "text-anchor": "end" }, t));
+        svg.appendChild(svgEl("line", { x1: padL, y1: y, x2: padL + plotW, y2: y, stroke: "var(--border)", "stroke-width": 1 }));
+        svg.appendChild(svgEl("text", { x: padL - 8, y: y + 4, fill: "var(--text-secondary)", "font-size": 11, "text-anchor": "end" }, t));
       });
 
-      svg.appendChild(svgEl("rect", { x: padL, y: padT, width: plotW, height: plotH, fill: "none", stroke: "#29374d" }));
-      svg.appendChild(svgEl("text", { x: padL + plotW / 2, y: H - 8, fill: "#cbd5e1", "font-size": 11.5, "font-weight": 600, "text-anchor": "middle" },
+      svg.appendChild(svgEl("rect", { x: padL, y: padT, width: plotW, height: plotH, fill: "none", stroke: "var(--border)" }));
+      svg.appendChild(svgEl("text", { x: padL + plotW / 2, y: H - 8, fill: "var(--text-primary)", "font-size": 11.5, "font-weight": 600, "text-anchor": "middle" },
         isPca ? "Principal Component 1 (53.7% Variance)" : "Adult Mean Schooling (Years, Ages 18+)"));
       svg.appendChild(svgEl("text", {
-        x: 15, y: padT + plotH / 2, fill: "#cbd5e1", "font-size": 11.5, "font-weight": 600,
+        x: 15, y: padT + plotH / 2, fill: "var(--text-primary)", "font-size": 11.5, "font-weight": 600,
         "text-anchor": "middle", transform: `rotate(-90 15 ${padT + plotH / 2})`
       }, isPca ? "Principal Component 2 (24.2% Variance)" : "Mean Household Assets (0–15 Scale)"));
 
@@ -1215,7 +1225,7 @@ ORDER BY remittance_household_pct DESC;
           r: (isActive ? r : Math.max(2.6, r * 0.72)).toFixed(1),
           fill: col,
           "fill-opacity": isActive ? "0.84" : "0.12",
-          stroke: isActive ? "#0b1120" : "none",
+          stroke: isActive ? "var(--canvas)" : "none",
           "stroke-width": "1",
           class: "dot",
           tabindex: isActive ? "0" : "-1",
@@ -1267,7 +1277,7 @@ ORDER BY remittance_household_pct DESC;
       }
 
       if (rows.length === 0) {
-        svg.appendChild(svgEl("text", { x: 320, y: 196, fill: "#9db1cc", "font-size": 13, "text-anchor": "middle" }, "No matching geography for current filters."));
+        svg.appendChild(svgEl("text", { x: 320, y: 196, fill: "var(--text-secondary)", "font-size": 13, "text-anchor": "middle" }, "No matching geography for current filters."));
         return;
       }
 
@@ -1277,28 +1287,28 @@ ORDER BY remittance_household_pct DESC;
       const rowH = Math.min(24, Math.floor((H - padT - padB) / rows.length));
       const barH = Math.max(10, rowH - 6);
 
-      svg.appendChild(svgEl("rect", { x: padL, y: 6, width: 10, height: 10, fill: "#38bdf8", rx: 2 }));
-      svg.appendChild(svgEl("text", { x: padL + 15, y: 15, fill: "#cbd5e1", "font-size": 11 }, "Urban Population"));
-      svg.appendChild(svgEl("rect", { x: padL + 125, y: 6, width: 10, height: 10, fill: "#34d399", rx: 2 }));
-      svg.appendChild(svgEl("text", { x: padL + 140, y: 15, fill: "#cbd5e1", "font-size": 11 }, "Rural Population"));
+      svg.appendChild(svgEl("rect", { x: padL, y: 6, width: 10, height: 10, fill: "var(--c1-blue)", rx: 2 }));
+      svg.appendChild(svgEl("text", { x: padL + 15, y: 15, fill: "var(--text-primary)", "font-size": 11 }, "Urban Population"));
+      svg.appendChild(svgEl("rect", { x: padL + 125, y: 6, width: 10, height: 10, fill: "var(--c2-green)", rx: 2 }));
+      svg.appendChild(svgEl("text", { x: padL + 140, y: 15, fill: "var(--text-primary)", "font-size": 11 }, "Rural Population"));
 
       [0, 0.25, 0.5, 0.75, 1].forEach((f) => {
         const x = padL + f * plotW;
         const tVal = maxVal * f;
         const tLabel = maxVal >= 10000 ? `${(tVal / 1000).toFixed(0)}K` : fmtInt(Math.round(tVal));
-        svg.appendChild(svgEl("line", { x1: x, y1: padT - 2, x2: x, y2: padT + rows.length * rowH, stroke: "#1e293b", "stroke-width": 1 }));
-        svg.appendChild(svgEl("text", { x, y: H - 10, fill: "#7d93b2", "font-size": 10, "text-anchor": "middle" }, tLabel));
+        svg.appendChild(svgEl("line", { x1: x, y1: padT - 2, x2: x, y2: padT + rows.length * rowH, stroke: "var(--border)", "stroke-width": 1 }));
+        svg.appendChild(svgEl("text", { x, y: H - 10, fill: "var(--text-muted)", "font-size": 10, "text-anchor": "middle" }, tLabel));
       });
 
       rows.forEach((r, idx) => {
         const y = padT + idx * rowH;
         const wU = (r.urban / maxVal) * plotW;
         const wR = (r.rural / maxVal) * plotW;
-        svg.appendChild(svgEl("text", { x: padL - 8, y: y + barH - 2, fill: "#e2e8f0", "font-size": 11, "text-anchor": "end" }, r.label));
-        svg.appendChild(svgEl("rect", { x: padL, y, width: wU.toFixed(1), height: barH, fill: "#38bdf8", rx: 2 }));
-        svg.appendChild(svgEl("rect", { x: (padL + wU).toFixed(1), y, width: wR.toFixed(1), height: barH, fill: "#34d399", rx: 2 }));
+        svg.appendChild(svgEl("text", { x: padL - 8, y: y + barH - 2, fill: "var(--text-primary)", "font-size": 11, "text-anchor": "end" }, r.label));
+        svg.appendChild(svgEl("rect", { x: padL, y, width: wU.toFixed(1), height: barH, fill: "var(--c1-blue)", rx: 2 }));
+        svg.appendChild(svgEl("rect", { x: (padL + wU).toFixed(1), y, width: wR.toFixed(1), height: barH, fill: "var(--c2-green)", rx: 2 }));
         const valText = r.total >= 10000 ? `${(r.total / 1000).toFixed(0)}K` : fmtInt(r.total);
-        svg.appendChild(svgEl("text", { x: padL + wU + wR + 6, y: y + barH - 2, fill: "#9db1cc", "font-size": 10.5 }, valText));
+        svg.appendChild(svgEl("text", { x: padL + wU + wR + 6, y: y + barH - 2, fill: "var(--text-secondary)", "font-size": 10.5 }, valText));
       });
     }
 
@@ -1333,7 +1343,7 @@ ORDER BY remittance_household_pct DESC;
       }
 
       if (rows.length === 0) {
-        svg.appendChild(svgEl("text", { x: 320, y: 196, fill: "#9db1cc", "font-size": 13, "text-anchor": "middle" }, "No matching districts for current filters."));
+        svg.appendChild(svgEl("text", { x: 320, y: 196, fill: "var(--text-secondary)", "font-size": 13, "text-anchor": "middle" }, "No matching districts for current filters."));
         return;
       }
 
@@ -1343,25 +1353,25 @@ ORDER BY remittance_household_pct DESC;
       const rowH = Math.min(24, Math.floor((H - padT - padB) / rows.length));
       const subH = Math.max(4, Math.floor((rowH - 6) / 2));
 
-      svg.appendChild(svgEl("rect", { x: padL, y: 6, width: 10, height: 10, fill: "#fbbf24", rx: 2 }));
-      svg.appendChild(svgEl("text", { x: padL + 15, y: 15, fill: "#cbd5e1", "font-size": 11 }, "Remittance Households (%)"));
-      svg.appendChild(svgEl("rect", { x: padL + 175, y: 6, width: 10, height: 10, fill: "#38bdf8", rx: 2 }));
-      svg.appendChild(svgEl("text", { x: padL + 190, y: 15, fill: "#cbd5e1", "font-size": 11 }, "Residential Broadband (%)"));
+      svg.appendChild(svgEl("rect", { x: padL, y: 6, width: 10, height: 10, fill: "var(--c3-amber)", rx: 2 }));
+      svg.appendChild(svgEl("text", { x: padL + 15, y: 15, fill: "var(--text-primary)", "font-size": 11 }, "Remittance Households (%)"));
+      svg.appendChild(svgEl("rect", { x: padL + 175, y: 6, width: 10, height: 10, fill: "var(--c1-blue)", rx: 2 }));
+      svg.appendChild(svgEl("text", { x: padL + 190, y: 15, fill: "var(--text-primary)", "font-size": 11 }, "Residential Broadband (%)"));
 
       [0, 0.25, 0.5, 0.75, 1].forEach((f) => {
         const x = padL + f * plotW;
-        svg.appendChild(svgEl("line", { x1: x, y1: padT - 2, x2: x, y2: padT + rows.length * rowH, stroke: "#1e293b", "stroke-width": 1 }));
-        svg.appendChild(svgEl("text", { x, y: H - 10, fill: "#7d93b2", "font-size": 10, "text-anchor": "middle" }, `${Math.round(maxPct * f)}%`));
+        svg.appendChild(svgEl("line", { x1: x, y1: padT - 2, x2: x, y2: padT + rows.length * rowH, stroke: "var(--border)", "stroke-width": 1 }));
+        svg.appendChild(svgEl("text", { x, y: H - 10, fill: "var(--text-muted)", "font-size": 10, "text-anchor": "middle" }, `${Math.round(maxPct * f)}%`));
       });
 
       rows.forEach((r, idx) => {
         const y = padT + idx * rowH;
         const wRem = (r.remit / maxPct) * plotW;
         const wNet = (r.net / maxPct) * plotW;
-        svg.appendChild(svgEl("text", { x: padL - 8, y: y + subH * 2, fill: "#e2e8f0", "font-size": 11, "text-anchor": "end" }, r.label));
-        svg.appendChild(svgEl("rect", { x: padL, y, width: wRem.toFixed(1), height: subH, fill: "#fbbf24", rx: 1.5 }));
-        svg.appendChild(svgEl("rect", { x: padL, y: y + subH + 1.5, width: wNet.toFixed(1), height: subH, fill: "#38bdf8", rx: 1.5 }));
-        svg.appendChild(svgEl("text", { x: padL + Math.max(wRem, wNet) + 6, y: y + subH * 2, fill: "#9db1cc", "font-size": 10 }, `${r.remit.toFixed(0)}% / ${r.net.toFixed(0)}%`));
+        svg.appendChild(svgEl("text", { x: padL - 8, y: y + subH * 2, fill: "var(--text-primary)", "font-size": 11, "text-anchor": "end" }, r.label));
+        svg.appendChild(svgEl("rect", { x: padL, y, width: wRem.toFixed(1), height: subH, fill: "var(--c3-amber)", rx: 1.5 }));
+        svg.appendChild(svgEl("rect", { x: padL, y: y + subH + 1.5, width: wNet.toFixed(1), height: subH, fill: "var(--c1-blue)", rx: 1.5 }));
+        svg.appendChild(svgEl("text", { x: padL + Math.max(wRem, wNet) + 6, y: y + subH * 2, fill: "var(--text-secondary)", "font-size": 10 }, `${r.remit.toFixed(0)}% / ${r.net.toFixed(0)}%`));
       });
     }
 
@@ -1370,20 +1380,20 @@ ORDER BY remittance_household_pct DESC;
       const svg = document.getElementById("svgInfraBenchmark");
       svg.innerHTML = "";
       if (filtered.length === 0) {
-        svg.appendChild(svgEl("text", { x: 320, y: 196, fill: "#9db1cc", "font-size": 13, "text-anchor": "middle" }, "No matching districts for current filters."));
+        svg.appendChild(svgEl("text", { x: 320, y: 196, fill: "var(--text-secondary)", "font-size": 13, "text-anchor": "middle" }, "No matching districts for current filters."));
         return;
       }
 
       const totPop = filtered.reduce((a, r) => a + r.population, 0);
       const totHH = filtered.reduce((a, r) => a + r.households, 0);
       const metrics = [
-        { label: "Literacy (10+)", val: filtered.reduce((a, r) => a + r.literacy_pct * r.population, 0) / Math.max(1, totPop), nat: NAT_BASELINE.literacy_pct, col: "#34d399" },
-        { label: "Piped Water", val: filtered.reduce((a, r) => a + r.piped_water_pct * r.households, 0) / Math.max(1, totHH), nat: NAT_BASELINE.piped_water_pct, col: "#38bdf8" },
-        { label: "Home Broadband", val: filtered.reduce((a, r) => a + r.internet_pct * r.households, 0) / Math.max(1, totHH), nat: NAT_BASELINE.internet_pct, col: "#38bdf8" },
-        { label: "Computer / Laptop", val: filtered.reduce((a, r) => a + r.computer_pct * r.households, 0) / Math.max(1, totHH), nat: NAT_BASELINE.computer_pct, col: "#38bdf8" },
-        { label: "Automobile", val: filtered.reduce((a, r) => a + r.auto_pct * r.households, 0) / Math.max(1, totHH), nat: NAT_BASELINE.auto_pct, col: "#34d399" },
-        { label: "Remittances", val: filtered.reduce((a, r) => a + r.remittance_pct * r.households, 0) / Math.max(1, totHH), nat: NAT_BASELINE.remittance_pct, col: "#fbbf24" },
-        { label: "Firewood Cooking", val: filtered.reduce((a, r) => a + r.firewood_pct * r.households, 0) / Math.max(1, totHH), nat: NAT_BASELINE.firewood_pct, col: "#f472b6" }
+        { label: "Literacy (10+)", val: filtered.reduce((a, r) => a + r.literacy_pct * r.population, 0) / Math.max(1, totPop), nat: NAT_BASELINE.literacy_pct, col: "var(--c2-green)" },
+        { label: "Piped Water", val: filtered.reduce((a, r) => a + r.piped_water_pct * r.households, 0) / Math.max(1, totHH), nat: NAT_BASELINE.piped_water_pct, col: "var(--c1-blue)" },
+        { label: "Home Broadband", val: filtered.reduce((a, r) => a + r.internet_pct * r.households, 0) / Math.max(1, totHH), nat: NAT_BASELINE.internet_pct, col: "var(--c1-blue)" },
+        { label: "Computer / Laptop", val: filtered.reduce((a, r) => a + r.computer_pct * r.households, 0) / Math.max(1, totHH), nat: NAT_BASELINE.computer_pct, col: "var(--c1-blue)" },
+        { label: "Automobile", val: filtered.reduce((a, r) => a + r.auto_pct * r.households, 0) / Math.max(1, totHH), nat: NAT_BASELINE.auto_pct, col: "var(--c2-green)" },
+        { label: "Remittances", val: filtered.reduce((a, r) => a + r.remittance_pct * r.households, 0) / Math.max(1, totHH), nat: NAT_BASELINE.remittance_pct, col: "var(--c3-amber)" },
+        { label: "Firewood Cooking", val: filtered.reduce((a, r) => a + r.firewood_pct * r.households, 0) / Math.max(1, totHH), nat: NAT_BASELINE.firewood_pct, col: "var(--c4-pink)" }
       ];
 
       const W = 640, H = 392, padL = 132, padR = 96, padT = 32, padB = 34;
@@ -1391,13 +1401,13 @@ ORDER BY remittance_household_pct DESC;
       const rowH = Math.floor((H - padT - padB) / metrics.length);
       const barH = 22;
 
-      svg.appendChild(svgEl("line", { x1: padL, y1: 12, x2: padL + 16, y2: 12, stroke: "#f4f7fb", "stroke-width": 2.5 }));
-      svg.appendChild(svgEl("text", { x: padL + 22, y: 16, fill: "#cbd5e1", "font-size": 11 }, "White vertical tick = National CPV 2024 Baseline"));
+      svg.appendChild(svgEl("line", { x1: padL, y1: 12, x2: padL + 16, y2: 12, stroke: "var(--text-primary)", "stroke-width": 2.5 }));
+      svg.appendChild(svgEl("text", { x: padL + 22, y: 16, fill: "var(--text-primary)", "font-size": 11 }, "Vertical tick = National CPV 2024 Baseline"));
 
       [0, 25, 50, 75, 100].forEach((p) => {
         const x = padL + (p / 100) * plotW;
-        svg.appendChild(svgEl("line", { x1: x, y1: padT, x2: x, y2: padT + metrics.length * rowH - 10, stroke: "#1e293b", "stroke-width": 1 }));
-        svg.appendChild(svgEl("text", { x, y: H - 10, fill: "#7d93b2", "font-size": 10.5, "text-anchor": "middle" }, `${p}%`));
+        svg.appendChild(svgEl("line", { x1: x, y1: padT, x2: x, y2: padT + metrics.length * rowH - 10, stroke: "var(--border)", "stroke-width": 1 }));
+        svg.appendChild(svgEl("text", { x, y: H - 10, fill: "var(--text-muted)", "font-size": 10.5, "text-anchor": "middle" }, `${p}%`));
       });
 
       metrics.forEach((m, idx) => {
@@ -1406,10 +1416,10 @@ ORDER BY remittance_household_pct DESC;
         const xNat = padL + (m.nat / 100) * plotW;
         const delta = m.val - m.nat;
         const sign = delta >= 0 ? "+" : "";
-        svg.appendChild(svgEl("text", { x: padL - 8, y: y + 15, fill: "#e2e8f0", "font-size": 11.5, "text-anchor": "end" }, m.label));
+        svg.appendChild(svgEl("text", { x: padL - 8, y: y + 15, fill: "var(--text-primary)", "font-size": 11.5, "text-anchor": "end" }, m.label));
         svg.appendChild(svgEl("rect", { x: padL, y, width: w.toFixed(1), height: barH, fill: m.col, "fill-opacity": "0.85", rx: 3 }));
-        svg.appendChild(svgEl("line", { x1: xNat.toFixed(1), y1: y - 3, x2: xNat.toFixed(1), y2: y + barH + 3, stroke: "#f4f7fb", "stroke-width": 2.4 }));
-        svg.appendChild(svgEl("text", { x: padL + plotW + 8, y: y + 15, fill: "#cbd5e1", "font-size": 10.5 }, `${m.val.toFixed(1)}% (${sign}${delta.toFixed(1)})`));
+        svg.appendChild(svgEl("line", { x1: xNat.toFixed(1), y1: y - 3, x2: xNat.toFixed(1), y2: y + barH + 3, stroke: "var(--text-primary)", "stroke-width": 2.4 }));
+        svg.appendChild(svgEl("text", { x: padL + plotW + 8, y: y + 15, fill: "var(--text-secondary)", "font-size": 10.5 }, `${m.val.toFixed(1)}% (${sign}${delta.toFixed(1)})`));
       });
     }
 
@@ -1439,8 +1449,8 @@ ORDER BY remittance_household_pct DESC;
 
       [0, 0.25, 0.5, 0.75, 1.0].forEach((t) => {
         const x = padL + (t / maxB) * plotW;
-        svg.appendChild(svgEl("line", { x1: x, y1: padT, x2: x, y2: padT + rows.length * rowH - 8, stroke: "#1e293b", "stroke-width": 1 }));
-        svg.appendChild(svgEl("text", { x, y: H - 18, fill: "#7d93b2", "font-size": 11, "text-anchor": "middle" }, t.toFixed(2)));
+        svg.appendChild(svgEl("line", { x1: x, y1: padT, x2: x, y2: padT + rows.length * rowH - 8, stroke: "var(--border)", "stroke-width": 1 }));
+        svg.appendChild(svgEl("text", { x, y: H - 18, fill: "var(--text-muted)", "font-size": 11, "text-anchor": "middle" }, t.toFixed(2)));
       });
 
       rows.forEach((b, idx) => {
@@ -1451,18 +1461,18 @@ ORDER BY remittance_household_pct DESC;
         const xHi = padL + (Math.min(maxB, b.std_ci95_high) / maxB) * plotW;
         const labelX = Math.max(padL + w, xHi) + 10;
         const midY = y + barH / 2;
-        const col = b.feature === "remittance_hh_pct" ? "#fbbf24" : "#38bdf8";
+        const col = b.feature === "remittance_hh_pct" ? "var(--c3-amber)" : "var(--c1-blue)";
 
-        svg.appendChild(svgEl("text", { x: padL - 10, y: y + 20, fill: "#e2e8f0", "font-size": 12, "font-weight": 600, "text-anchor": "end" }, labels[b.feature] || b.feature));
+        svg.appendChild(svgEl("text", { x: padL - 10, y: y + 20, fill: "var(--text-primary)", "font-size": 12, "font-weight": 600, "text-anchor": "end" }, labels[b.feature] || b.feature));
         svg.appendChild(svgEl("rect", { x: padL, y, width: w.toFixed(1), height: barH, fill: col, "fill-opacity": "0.86", rx: 4 }));
-        // Dark halo behind crisp 95% bootstrap CI whisker for clean contrast on cyan/amber bars
-        svg.appendChild(svgEl("line", { x1: xLo.toFixed(1), y1: midY, x2: xHi.toFixed(1), y2: midY, stroke: "#0b1120", "stroke-width": 4, "stroke-linecap": "round" }));
-        svg.appendChild(svgEl("line", { x1: xLo.toFixed(1), y1: midY, x2: xHi.toFixed(1), y2: midY, stroke: "#f8fafc", "stroke-width": 2 }));
-        svg.appendChild(svgEl("line", { x1: xLo.toFixed(1), y1: midY - 5, x2: xLo.toFixed(1), y2: midY + 5, stroke: "#f8fafc", "stroke-width": 2 }));
-        svg.appendChild(svgEl("line", { x1: xHi.toFixed(1), y1: midY - 5, x2: xHi.toFixed(1), y2: midY + 5, stroke: "#f8fafc", "stroke-width": 2 }));
-        svg.appendChild(svgEl("text", { x: labelX.toFixed(1), y: y + 20, fill: "#f4f7fb", "font-size": 11, "font-weight": 600 }, `β = ${b.std_beta.toFixed(3)} [${b.std_ci95_low.toFixed(2)}, ${b.std_ci95_high.toFixed(2)}]`));
+        // Canvas halo behind crisp 95% bootstrap CI whisker for clean contrast on blue/amber bars
+        svg.appendChild(svgEl("line", { x1: xLo.toFixed(1), y1: midY, x2: xHi.toFixed(1), y2: midY, stroke: "var(--canvas)", "stroke-width": 4, "stroke-linecap": "round" }));
+        svg.appendChild(svgEl("line", { x1: xLo.toFixed(1), y1: midY, x2: xHi.toFixed(1), y2: midY, stroke: "var(--text-primary)", "stroke-width": 2 }));
+        svg.appendChild(svgEl("line", { x1: xLo.toFixed(1), y1: midY - 5, x2: xLo.toFixed(1), y2: midY + 5, stroke: "var(--text-primary)", "stroke-width": 2 }));
+        svg.appendChild(svgEl("line", { x1: xHi.toFixed(1), y1: midY - 5, x2: xHi.toFixed(1), y2: midY + 5, stroke: "var(--text-primary)", "stroke-width": 2 }));
+        svg.appendChild(svgEl("text", { x: labelX.toFixed(1), y: y + 20, fill: "var(--text-primary)", "font-size": 11, "font-weight": 600 }, `β = ${b.std_beta.toFixed(3)} [${b.std_ci95_low.toFixed(2)}, ${b.std_ci95_high.toFixed(2)}]`));
       });
-      svg.appendChild(svgEl("text", { x: padL + plotW / 2, y: H - 2, fill: "#9db1cc", "font-size": 11, "text-anchor": "middle" }, "Standardized OLS β Weight (±95% Bootstrap CI, 1,000 Resamples)"));
+      svg.appendChild(svgEl("text", { x: padL + plotW / 2, y: H - 2, fill: "var(--text-secondary)", "font-size": 11, "text-anchor": "middle" }, "Standardized OLS β Weight (±95% Bootstrap CI, 1,000 Resamples)"));
     }
 
     // 6. View 2 Live Chart 6: Vulnerability Index vs. Labor Commuting Outflow
@@ -1480,19 +1490,19 @@ ORDER BY remittance_household_pct DESC;
 
       [0, 10, 20, 30, 40, 50].forEach((t) => {
         const x = sx(t);
-        svg.appendChild(svgEl("line", { x1: x, y1: padT, x2: x, y2: padT + plotH, stroke: "#1e293b", "stroke-width": 1 }));
-        svg.appendChild(svgEl("text", { x, y: padT + plotH + 16, fill: "#9db1cc", "font-size": 11, "text-anchor": "middle" }, t));
+        svg.appendChild(svgEl("line", { x1: x, y1: padT, x2: x, y2: padT + plotH, stroke: "var(--border)", "stroke-width": 1 }));
+        svg.appendChild(svgEl("text", { x, y: padT + plotH + 16, fill: "var(--text-secondary)", "font-size": 11, "text-anchor": "middle" }, t));
       });
       [0, 15, 30, 45, 60].forEach((t) => {
         const y = sy(t);
-        svg.appendChild(svgEl("line", { x1: padL, y1: y, x2: padL + plotW, y2: y, stroke: "#1e293b", "stroke-width": 1 }));
-        svg.appendChild(svgEl("text", { x: padL - 8, y: y + 4, fill: "#9db1cc", "font-size": 11, "text-anchor": "end" }, `${t}%`));
+        svg.appendChild(svgEl("line", { x1: padL, y1: y, x2: padL + plotW, y2: y, stroke: "var(--border)", "stroke-width": 1 }));
+        svg.appendChild(svgEl("text", { x: padL - 8, y: y + 4, fill: "var(--text-secondary)", "font-size": 11, "text-anchor": "end" }, `${t}%`));
       });
 
-      svg.appendChild(svgEl("rect", { x: padL, y: padT, width: plotW, height: plotH, fill: "none", stroke: "#29374d" }));
-      svg.appendChild(svgEl("text", { x: padL + plotW / 2, y: H - 8, fill: "#cbd5e1", "font-size": 11.5, "font-weight": 600, "text-anchor": "middle" }, "Infrastructure Vulnerability Index (0–100, Higher = More Deprived)"));
+      svg.appendChild(svgEl("rect", { x: padL, y: padT, width: plotW, height: plotH, fill: "none", stroke: "var(--border)" }));
+      svg.appendChild(svgEl("text", { x: padL + plotW / 2, y: H - 8, fill: "var(--text-primary)", "font-size": 11.5, "font-weight": 600, "text-anchor": "middle" }, "Infrastructure Vulnerability Index (0–100, Higher = More Deprived)"));
       svg.appendChild(svgEl("text", {
-        x: 15, y: padT + plotH / 2, fill: "#cbd5e1", "font-size": 11.5, "font-weight": 600,
+        x: 15, y: padT + plotH / 2, fill: "var(--text-primary)", "font-size": 11.5, "font-weight": 600,
         "text-anchor": "middle", transform: `rotate(-90 15 ${padT + plotH / 2})`
       }, "Commuting Outside Municipality (%)"));
 
@@ -1512,7 +1522,7 @@ ORDER BY remittance_household_pct DESC;
           r: (isActive ? r : Math.max(2.6, r * 0.72)).toFixed(1),
           fill: col,
           "fill-opacity": isActive ? "0.84" : "0.12",
-          stroke: isActive ? "#0b1120" : "none",
+          stroke: isActive ? "var(--canvas)" : "none",
           "stroke-width": "1",
           class: "dot",
           tabindex: isActive ? "0" : "-1",
@@ -1777,7 +1787,7 @@ ORDER BY remittance_household_pct DESC;
         paginationPageSizeSelector: [15, 25, 44]
       });
     } else {
-      const offlineMsg = '<div style="padding:20px;color:#fbbf24;">AG Grid Community CDN could not be loaded (offline or blocked). Interactive SVG charts and native tables remain fully functional.</div>';
+      const offlineMsg = '<div style="padding:20px;color:var(--c3-amber);">AG Grid Community CDN could not be loaded (offline or blocked). Interactive SVG charts and native tables remain fully functional.</div>';
       document.getElementById("districtGrid").innerHTML = offlineMsg;
       document.getElementById("muniGrid").innerHTML = offlineMsg;
     }
@@ -1972,6 +1982,11 @@ ORDER BY remittance_household_pct DESC;
     }
     function setCensusTheme(next) {
       document.documentElement.setAttribute("data-theme", next);
+      const gridCls = next === "dark" ? "ag-theme-quartz-dark" : "ag-theme-quartz";
+      ["districtGrid", "muniGrid"].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.className = gridCls;
+      });
       document.getElementById("btnTheme").textContent =
         censusLang === "es" ? (next === "dark" ? "Claro" : "Oscuro") : (next === "dark" ? "Light" : "Dark");
       try { localStorage.setItem("sa_theme", next); } catch (e) {}

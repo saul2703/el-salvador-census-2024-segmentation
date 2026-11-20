@@ -620,6 +620,7 @@
       <div class="port-actions">
         <a class="port-btn" id="btnPortfolio" href="https://script.google.com/macros/s/AKfycbwncnUQtQ0ottVSHd3G5f-dkY0gOlEiuWBNF8ykIzbQypTfpZm2tihqidv1spVd5HnCew/exec">&larr; Portfolio</a>
         <button type="button" class="port-btn" id="btnTheme" aria-label="Toggle dark or light theme">Dark</button>
+        <button type="button" class="port-btn" id="btnLang" aria-label="Switch language between English and Spanish">ES</button>
         <div class="meta-tag">CPV2024SV &bull; 262 Districts &bull; 44 Munis &bull; k=4</div>
       </div>
     </header>
@@ -712,10 +713,10 @@
               </div>
               <div class="cluster-chips" id="scatter-chips" role="group" aria-label="Quick Cluster Filter">
                 <button type="button" class="chip-btn" data-cid="ALL" aria-pressed="true">All (262)</button>
-                <button type="button" class="chip-btn" data-cid="1" aria-pressed="false"><span class="swatch" style="background:#38bdf8;"></span>C1 Hubs (32)</button>
-                <button type="button" class="chip-btn" data-cid="2" aria-pressed="false"><span class="swatch" style="background:#34d399;"></span>C2 Commuter (84)</button>
-                <button type="button" class="chip-btn" data-cid="3" aria-pressed="false"><span class="swatch" style="background:#fbbf24;"></span>C3 Remittance (88)</button>
-                <button type="button" class="chip-btn" data-cid="4" aria-pressed="false"><span class="swatch" style="background:#f472b6;"></span>C4 Rural (58)</button>
+                <button type="button" class="chip-btn" data-cid="1" aria-pressed="false"><span class="swatch" style="background:var(--c1-blue);"></span>C1 Hubs (32)</button>
+                <button type="button" class="chip-btn" data-cid="2" aria-pressed="false"><span class="swatch" style="background:var(--c2-green);"></span>C2 Commuter (84)</button>
+                <button type="button" class="chip-btn" data-cid="3" aria-pressed="false"><span class="swatch" style="background:var(--c3-amber);"></span>C3 Remittance (88)</button>
+                <button type="button" class="chip-btn" data-cid="4" aria-pressed="false"><span class="swatch" style="background:var(--c4-pink);"></span>C4 Rural (58)</button>
               </div>
               <div class="chart-readout" id="scatter-readout" aria-live="polite">Hover or Tab onto any district bubble to inspect exact CPV 2024 metrics.</div>
               <svg id="svgClusterScatter" class="chart-svg" viewBox="0 0 640 360" role="img" aria-label="Interactive K-Means++ District Scatter Plot"></svg>
@@ -1925,12 +1926,54 @@ ORDER BY remittance_household_pct DESC;
       if (muniGridApi) muniGridApi.exportDataAsCsv({ fileName: "el_salvador_cpv2024_municipalities.csv" });
     });
 
+    let censusLang = "en";
+    const CENSUS_I18N = {
+      en: {
+        back: "← Portfolio", h1: "El Salvador 2024 Census Analytics & K-Means++ District Workbench",
+        lead: "I read all <strong>5 tables (10,510,745 rows)</strong> from El Salvador's 2024 Census across all <strong>262 districts</strong>. Rural towns where families receive money from abroad own more home appliances and internet than many towns with more years of schooling.",
+        src: "Official Data Source:",
+        kpis: ["Filtered District Population", "Households & Dwellings", "Adult Schooling & Literacy", "Household Assets & Broadband", "Remittances & Labor Commute"],
+        tabs: ["Live Charts & K-Means++", "OLS Regression & Labor Mobility", "262-District & 44-Muni Grids", "Top / Bottom Performers", "Star Schema SQL & Sentences"],
+        labels: ["Cluster:", "Department:", "Search:"], ph: "District or municipality...", reset: "Reset", exp: "Export CSV",
+        charts: ["K-Means++ District Clusters: Adult Schooling vs. Household Assets", "Population Urban vs. Rural Split (14 Departments)", "The Remittance Paradox: Remittance Dependency vs. Broadband (%)", "Filtered Slice vs. National CPV 2024 Baseline (7 Indicators)"]
+      },
+      es: {
+        back: "← Portafolio", h1: "Censo El Salvador 2024 · Tablero por Distritos y K-Means++",
+        lead: "Leí las <strong>5 tablas oficiales (10,510,745 registros)</strong> del Censo 2024 de El Salvador en los <strong>262 distritos</strong>. Los pueblos rurales con más remesas del extranjero tienen más electrodomésticos e internet que zonas con mayor escolaridad.",
+        src: "Fuente Oficial:",
+        kpis: ["Población en Distritos", "Hogares y Viviendas", "Escolaridad y Alfabetismo", "Bienes del Hogar e Internet", "Remesas y Conmutación Laboral"],
+        tabs: ["Gráficos en Vivo y K-Means++", "Regresión MCO y Movilidad", "Tablas 262 Distritos y 44 Mun.", "Mejores / Más Vulnerables", "SQL Estrella y Variables"],
+        labels: ["Clúster:", "Departamento:", "Buscar:"], ph: "Distrito o municipio...", reset: "Reiniciar", exp: "Exportar CSV",
+        charts: ["Clústeres K-Means++: Escolaridad vs. Bienes del Hogar", "Población Urbana vs. Rural (14 Departamentos)", "Paradoja de Remesas: Remesas vs. Internet (%)", "Selección Activa vs. Promedio Nacional (7 Indicadores)"]
+      }
+    };
+    function applyCensusLang() {
+      const t = CENSUS_I18N[censusLang];
+      document.documentElement.lang = censusLang;
+      document.getElementById("btnLang").textContent = censusLang === "es" ? "EN" : "ES";
+      document.getElementById("btnPortfolio").textContent = t.back;
+      document.getElementById("main-content").textContent = t.h1;
+      document.querySelector(".masthead p").innerHTML = t.lead;
+      document.querySelector(".source-row strong").textContent = t.src;
+      document.querySelectorAll(".ledger-label").forEach((el, i) => { if (t.kpis[i]) el.textContent = t.kpis[i]; });
+      document.querySelectorAll(".toolbar .tab-btn").forEach((el, i) => { if (t.tabs[i]) el.textContent = t.tabs[i]; });
+      document.querySelectorAll(".filter-bar label").forEach((el, i) => { if (t.labels[i]) el.textContent = t.labels[i]; });
+      document.getElementById("quickSearch").placeholder = t.ph;
+      document.getElementById("btnResetToolbar").textContent = t.reset;
+      document.getElementById("btnExportDist").textContent = t.exp;
+      ["scatter-title", "geo-chart-title", "remit-chart-title", "bench-chart-title"].forEach((id, i) => {
+        document.getElementById(id).textContent = t.charts[i];
+      });
+      setCensusTheme(document.documentElement.getAttribute("data-theme") || "light");
+    }
+
     if (typeof location !== "undefined" && location.protocol === "file:") {
       document.getElementById("btnPortfolio").href = "../portfolio/Index.html";
     }
     function setCensusTheme(next) {
       document.documentElement.setAttribute("data-theme", next);
-      document.getElementById("btnTheme").textContent = next === "dark" ? "Light" : "Dark";
+      document.getElementById("btnTheme").textContent =
+        censusLang === "es" ? (next === "dark" ? "Claro" : "Oscuro") : (next === "dark" ? "Light" : "Dark");
       try { localStorage.setItem("sa_theme", next); } catch (e) {}
     }
     (function initCensusTheme() {
@@ -1941,6 +1984,10 @@ ORDER BY remittance_household_pct DESC;
     })();
     document.getElementById("btnTheme").addEventListener("click", () => {
       setCensusTheme((document.documentElement.getAttribute("data-theme") || "light") === "dark" ? "light" : "dark");
+    });
+    document.getElementById("btnLang").addEventListener("click", () => {
+      censusLang = censusLang === "en" ? "es" : "en";
+      applyCensusLang();
     });
 
     renderStaticStatisticalTables();

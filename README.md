@@ -1,5 +1,6 @@
 # El Salvador 2024 Census Analytics & K-Means++ Segmentation (`el-salvador-census-2024-segmentation`)
 
+> **Language:** **English** | [Español (`README.es.md`)](README.es.md)
 > **Strategic Repository Name:** `el-salvador-census-2024-segmentation`
 > **GitHub Description:** `End-to-end demographic analytics & unsupervised K-Means++ segmentation of El Salvador's 2024 Census (10.51M records, 262 districts) with Star Schema SQL, 2D PCA & AG Grid.`
 > **Topics:** `el-salvador` · `census-2024` · `kmeans-clustering` · `pca` · `python` · `star-schema` · `ag-grid` · `data-science-portfolio`

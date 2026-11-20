@@ -2,10 +2,10 @@
 
 > **Idioma:** [English (`README.md`)](README.md) | **Español**
 >
-> **Tablero interactivo bilingüe (`EN / ES`):** [`index.html`](index.html) · [Versión en vivo en GitHub Pages](https://saul2703.github.io/el-salvador-census-2024-segmentation/)
+> **Dashboard interactivo bilingüe (`EN / ES`):** [`index.html`](index.html) · [Versión en vivo en GitHub Pages](https://saul2703.github.io/el-salvador-census-2024-segmentation/)
 > **Fuente oficial (`BCR / ONEC`):** [CPV 2024 Bases de Datos y Tabulados](https://poblacion.bcr.gob.sv/pages/teg-base-de-datos-y-tabulados)
 
-![Resumen del Tablero Censal](images/dashboard_overview_preview.png)
+![Resumen del Dashboard Censal](images/dashboard_overview_preview.png)
 
 ---
 
@@ -29,8 +29,8 @@ Leí los **5 archivos CSV oficiales** del VII Censo de Población y VI de Vivien
 
 ## Estructura y Verificación
 
-- [`index.html`](index.html) — Tablero interactivo (`EN / ES`, modo claro/oscuro, gráficos SVG en vivo, tablas AG Grid y esquema SQL).
+- [`index.html`](index.html) — Dashboard interactivo (`EN / ES`, modo claro/oscuro, gráficos SVG en vivo, tablas AG Grid y esquema SQL).
 - [`src/census_analysis.py`](src/census_analysis.py) — Pipeline Python en *streaming* por bloques sobre el ZIP oficial del BCR.
 - [`data/census_summary.json`](data/census_summary.json) — Resumen validado de los 262 distritos, 44 municipios y regresiones MCO.
 - [`sql/cpv2024_star_schema.sql`](sql/cpv2024_star_schema.sql) — Esquema estrella SQL (`dim_geography`, hechos de hogares/distritos).
-- [`verify.mjs`](verify.mjs) — Pruebas automáticas de conciliación censal y estructura del tablero (`node verify.mjs`).
+- [`verify.mjs`](verify.mjs) — Pruebas automáticas de conciliación censal y estructura del dashboard (`node verify.mjs`).

@@ -1,43 +1,45 @@
 # El Salvador 2024 Census Analytics & K-Means++ Segmentation (`el-salvador-census-2024-segmentation`)
 
-> **Language:** **English** | [Español (`README.es.md`)](README.es.md)
 > **Strategic Repository Name:** `el-salvador-census-2024-segmentation`
 > **GitHub Description:** `End-to-end demographic analytics & unsupervised K-Means++ segmentation of El Salvador's 2024 Census (10.51M records, 262 districts) with Star Schema SQL, 2D PCA & AG Grid.`
 > **Topics:** `el-salvador` · `census-2024` · `kmeans-clustering` · `pca` · `python` · `star-schema` · `ag-grid` · `data-science-portfolio`
 
-> **End-to-End Demographic & Econometric Data Science Analysis:** Direct ZIP-streamed aggregation across all **5 official El Salvador 2024 Census (`CPV2024SV`) microdata tables** (**6,029,976 individuals**, **1,920,668 households**, **2,270,026 dwellings**, **226,808 international emigrants**, and **63,267 recent mortality records** = **10,510,745 total census records**), benchmarked against **UN Population Division (1950–2100)** trajectories and analyzed across all **262 Districts** and **44 Restructured Municipalities** via **K-Means++**, **2D SVD PCA**, **Multivariate OLS (1,000 Bootstrap CIs)**, and **Labor Mobility / Vulnerability Scoring**.
+> **End-to-End Demographic & Socioeconomic Data Science Case Study:** Direct ZIP-streamed aggregation across all **5 official El Salvador 2024 Census (`CPV2024SV`) microdata tables** (**6,029,976 individuals**, **1,920,668 households**, **2,270,026 dwellings**, **226,808 international emigrants**, and **63,267 recent mortality records** = **10,510,745 total census records**), benchmarked against **UN Population Division (1950–2100)** trajectories and segmented across all **262 Districts** and **44 Restructured Municipalities** via unsupervised **K-Means++** & **2D SVD Principal Component Analysis**.
 
-![Demographic & Analytical Overview](images/dashboard_overview_preview.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/dashboard_overview_preview.png" />
+  <source media="(prefers-color-scheme: light)" srcset="images/dashboard_overview_preview_light.png" />
+  <img alt="Executive Overview Dashboard" src="images/dashboard_overview_preview.png" />
+</picture>
 
-- **Interactive AG Grid HTML5 Workbench:** [`index.html`](index.html)
-- **Official Data Source:** [Banco Central de Reserva (BCR) / ONEC — VII Censo de Población y VI de Vivienda 2024 (Bases de Datos y Tabulados)](https://poblacion.bcr.gob.sv/pages/teg-base-de-datos-y-tabulados)
-- **Reproducible Streaming, ML & Econometric Pipeline:** [`src/census_analysis.py`](src/census_analysis.py)
-- **Aggregated District, Municipality & Statistical JSON:** [`data/census_summary.json`](data/census_summary.json)
+- **Interactive AG Grid HTML5 Dashboard:** [`index.html`](index.html)
+- **Official Data Source:** [Banco Central de Reserva (BCR) / Oficina Nacional de Estadística y Censos (ONEC) — VII Censo de Población y VI de Vivienda 2024](https://geoportal.bcr.gob.sv/)
+- **Reproducible Streaming & K-Means++ Pipeline:** [`src/census_analysis.py`](src/census_analysis.py)
+- **Aggregated District, Municipality & Cluster JSON:** [`data/census_summary.json`](data/census_summary.json)
 
 ---
 
 ## Table of Contents
-1. [Analytical Scope & Research Questions](#1-analytical-scope--research-questions)
+1. [Executive Problem Statement & Objectives](#1-executive-problem-statement--objectives)
 2. [Complete English Schema Across All 5 CPV 2024 Datasets](#2-complete-english-schema-across-all-5-cpv-2024-datasets)
-3. [Methodological Architecture & External Demographic Benchmarks](#3-methodological-architecture--external-demographic-benchmarks)
+3. [Synthesis with External GitHub Benchmarks](#3-synthesis-with-external-github-benchmarks)
 4. [Exploratory Demographic, Infrastructure & Migration Findings](#4-exploratory-demographic-infrastructure--migration-findings)
-5. [Unsupervised Machine Learning, OLS Regression & Vulnerability Analysis](#5-unsupervised-machine-learning-ols-regression--vulnerability-analysis)
-6. [Key Analytical Takeaways & Methodological Caveats](#6-key-analytical-takeaways--methodological-caveats)
+5. [Unsupervised Machine Learning: K-Means++ District Segmentation](#5-unsupervised-machine-learning-k-means-district-segmentation)
+6. [Actionable Policy & Commercial Territory Recommendations](#6-actionable-policy--commercial-territory-recommendations)
 7. [Repository Structure & Reproducible Verification](#7-repository-structure--reproducible-verification)
 
 ---
 
-## 1. Analytical Scope & Research Questions
+## 1. Executive Problem Statement & Objectives
 
-In 2024, El Salvador completed its first national Population and Housing Census in 17 years (**CPV 2024**, following the 2007 census), coinciding with the country's territorial reorganization from **262 historical districts (*distritos*)** into **44 restructured municipalities** across **14 departments** (*Ley Especial para la Reestructuración Municipal*).
+In 2024, El Salvador completed its first national Population and Housing Census in 17 years (**CPV 2024**, following the 2007 census), coinciding with the country's territorial reorganization from **262 historical municipalities (now *distritos*)** into **44 new municipalities** across **14 departments** (*Ley Especial para la Reestructuración Municipal*).
 
-This empirical study investigates six core statistical and structural questions across all `10.51M` census records:
-1. **Population Reconciliation & Demographic Transition:** How does El Salvador's enumerated 2024 population (**6,029,976**) reconcile between residential districts and institutional collective dwellings, and how does its age-sex structure compare to **UN Population Division (1950–2100)** medium-fertility and zero-migration trajectories?
-2. **Household Asset Accumulation & Broadband Stratification:** Across **1,920,668 households** and **15 tracked assets**, which durables exhibit saturation versus sharp spatial divergence?
-3. **Transnational Migration & the Remittance Mechanism:** How did the **2014–2024 emigration cohort (`226,808` individuals)** alter demographic aging and household capital formation across rural eastern and northern districts?
-4. **Unsupervised K-Means++ District Typology:** Can 8 standardized continuous indicators across **262 districts** recover distinct structural regimes along human capital (`PC1`) and remittance/aging (`PC2`) axes?
-5. **Econometric Validation (OLS + Bootstrap CIs):** Controlling for schooling, urbanization, and indoor piped water, what is the isolated partial effect of remittance incidence on household wealth and broadband adoption?
-6. **Labor Commuting & Infrastructure Vulnerability:** How do inter-municipal worker commuting outflows (`31.38%` nationally) and formal salaried employment (`57.99%`) covary with composite infrastructure deprivation?
+Public-sector planners, infrastructure investors, and commercial territory managers need data-backed answers to five core questions:
+1. **Population Reconciliation & Demographic Transition:** How does El Salvador's enumerated 2024 population (**6,029,976**) reconcile across residential districts versus institutional collective dwellings, and how does the age-sex pyramid compare to **UN Population Division (1950–2100)** projections?
+2. **The Digital & Household Asset Divide:** Across **1,920,668 households** and **15 tracked durable assets**, which assets have reached near-universal saturation and which define socioeconomic stratification?
+3. **Transnational Migration & Remittance Dependency:** How did the **2014–2024 international emigration wave (226,808 reported emigrants)** reshape the age structure and household asset wealth of high-emigration rural districts?
+4. **Unsupervised K-Means++ Territorial Segmentation:** Can we cluster all **262 districts** across 8 continuous, standardized indicators spanning human capital, household assets, broadband, water/cooking infrastructure, remittances, and demographic aging?
+5. **Zero-Backend Self-Service BI:** How can decision-makers drill into all **262 districts** and **44 restructured municipalities** with instant sorting, cluster filtering, and CSV export?
 
 ---
 
@@ -61,35 +63,50 @@ Auditing `DEPTODESC` and `DISTODESC` across `Viviendas` and `Población` surface
 
 ---
 
-## 3. Methodological Architecture & External Demographic Benchmarks
+## 3. Synthesis with External GitHub Benchmarks
 
 1. **[`datasets/population-growth-estimates-and-projections`](https://github.com/datasets/population-growth-estimates-and-projections) (UN Population Division, 1950–2100):**
    - Provides longitudinal country-level estimates and projection variants (*Medium Fertility*, *Zero Migration*, *Constant Fertility*).
    - Plotting CPV 2024's actual count (**6.03M**) against the UN's *Zero-Migration Counterfactual* (**~6.51M in 2024**) visually demonstrates how international out-migration and declining fertility (`0–4` cohort = `373,233` vs. `25–29` cohort = `540,516`) have flattened El Salvador's total population curve ahead of schedule.
-2. **Sentinel-Cleaned Continuous Feature Engineering (`K-Means++`, `2D PCA` & `OLS Bootstrap`):**
-   - Raw CPV 2024 binary and categorical fields encode `1 = Yes`, `2 = No`, and `9` or `99 = Unknown`. Running Euclidean clustering on raw integer codes would cluster districts on missing-value sentinels (`99`). Instead, [`src/census_analysis.py`](src/census_analysis.py) computes clean continuous district rates (`0–100%` and valid means) over non-missing denominators prior to Z-score standardization, K-Means++ (`k = 2..8`, 50 restarts), SVD PCA, and 1,000-resample OLS bootstrap regression.
-3. **Top-5 vs. Bottom-5 Territorial Extremes & Relational Star Schema (`cpv2024_analytics`):**
-   - Pairs an interactive **Overview & Regression Workbench** with a dynamic **Top 5 Leaders vs. Bottom 5 High-Vulnerability Extremes Matrix** across 4 census dimensions (*Adult Schooling Years*, *Household Durable Asset Index*, *Residential Broadband %*, and *International Remittance %*).
-   - Normalizes the 5 raw CPV 2024 CSV database exports into a formal relational Star Schema ([`sql/cpv2024_star_schema.sql`](sql/cpv2024_star_schema.sql)) with 3 Dimension tables (`dim_geography`, `dim_dwellings`, `dim_households`), 3 Fact tables (`fact_population`, `fact_international_emigration`, `fact_mortality`), analytical SQL views (`vw_district_kmeans_features`, `vw_remittance_asset_paradox`), runtime `DistrictSchemaContract` checks, and deterministic **Spanish-to-English survey mappings** (`SPANISH_TO_ENGLISH_SENTENCES`).
+2. **[`KarinaSamsonova/mall-customer-segmentation`](https://github.com/KarinaSamsonova/mall-customer-segmentation) (Unsupervised K-Means Portfolio Workflow):**
+   - Adapts the classic unsupervised clustering narrative (*Feature Engineering & Sentinel Cleaning $\rightarrow$ Z-Score Standardization $\rightarrow$ WCSS Elbow & Silhouette Evaluation $\rightarrow$ 2D PCA Projection $\rightarrow$ Actionable Personas*) from a 200-row toy dataset to a **10.51-million-record national census**.
+   - Avoids a common LLM census pitfall: raw CPV 2024 binary/categorical fields encode `1 = Yes`, `2 = No`, and `9` or `99 = Unknown`. Running Euclidean K-Means on raw integer codes clusters on missing-value sentinels (`99`). Instead, we compute clean continuous district rates (`0–100%` and valid means) over non-missing denominators before Z-score scaling.
+3. **[`stefanovertua/Pizza-Pioneers-Sales-Operations-Analysis-Power-BI-Dashboard`](https://github.com/stefanovertua/Pizza-Pioneers-Sales-Operations-Analysis-Power-BI-Dashboard) (Executive Summary vs. Top/Bottom Operations Matrix):**
+   - Separates the BI workbench into an **Executive & K-Means++ Overview** tab and a dedicated **Top 5 Leaders vs. Bottom 5 High-Vulnerability Performers Matrix** across 4 operational dimensions (*Adult Schooling Years*, *Household Durable Asset Index*, *Residential Broadband %*, and *International Remittance %*) to guide infrastructure capex and commercial territory sizing.
+4. **[`weismanm12/finances-database`](https://github.com/weismanm12/finances-database) (Relational Star Schema DDL, SQL Views & Automated ETL Validation):**
+   - Normalizes the 5 raw CPV 2024 CSV exports into a formal relational Star Schema ([`sql/cpv2024_star_schema.sql`](sql/cpv2024_star_schema.sql)) with 3 Dimension tables (`dim_geography`, `dim_dwellings`, `dim_households`), 3 Fact tables (`fact_population`, `fact_international_emigration`, `fact_mortality`), and analytical SQL views (`vw_district_kmeans_features`, `vw_remittance_asset_paradox`).
+   - Enforces runtime schema and boundary validation via `DistrictSchemaContract` plus deterministic **Spanish-to-English survey sentence transformation** (`SPANISH_TO_ENGLISH_SENTENCES` in [`src/census_analysis.py`](src/census_analysis.py)).
 
 ---
 
 ## 4. Exploratory Demographic, Infrastructure & Migration Findings
 
 ### 4.1 Age-Sex Pyramid & UN Projection Comparison
-![Demographic Pyramid and UN Projections](images/demographic_pyramid_and_un_projections.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/demographic_pyramid_and_un_projections.png" />
+  <source media="(prefers-color-scheme: light)" srcset="images/demographic_pyramid_and_un_projections_light.png" />
+  <img alt="Demographic Pyramid and UN Projections" src="images/demographic_pyramid_and_un_projections.png" />
+</picture>
 
 - **Rapid Base Contraction:** The `0–4` age cohort (**373,233**, `6.19%` of population) is **31.0% smaller** than the peak `25–29` cohort (**540,516**, `8.96%`), confirming a sharp drop in total fertility toward replacement level.
 - **Gender Asymmetry:** El Salvador's population is **52.55% female** (`3,168,895` females vs. `2,861,081` males), with the female share rising steadily past age 20 due to male-skewed international emigration and higher male external mortality.
 
 ### 4.2 Department Urbanization & Remittance Dependency
-![Department Population and Remittances](images/department_population_and_remittances.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/department_population_and_remittances.png" />
+  <source media="(prefers-color-scheme: light)" srcset="images/department_population_and_remittances_light.png" />
+  <img alt="Department Population and Remittances" src="images/department_population_and_remittances.png" />
+</picture>
 
 - **Metropolitan Concentration:** **San Salvador** (**1,563,371** residents across 19 districts, `96.2%` urban) and **La Libertad** (**765,879** residents across 22 districts, `81.8%` urban) together house **39.3% of El Salvador's residential population**.
 - **Eastern & Northern Remittance Belt:** While **26.33%** of households receive international remittances nationally, household remittance penetration reaches **47.5% in La Unión**, **42.8% in Morazán**, **42.3% in Cabañas**, **40.3% in Chalatenango**, and **39.4% in San Miguel**.
 
 ### 4.3 Household Asset Penetration & The Digital Divide (`1,920,668` Households)
-![Household Assets and Digital Divide](images/household_assets_digital_divide.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/household_assets_digital_divide.png" />
+  <source media="(prefers-color-scheme: light)" srcset="images/household_assets_digital_divide_light.png" />
+  <img alt="Household Assets and Digital Divide" src="images/household_assets_digital_divide.png" />
+</picture>
 
 | Asset Tier | Census Indicator (`Hogares`) | Households Owning | National Penetration (%) |
 | :--- | :--- | ---: | ---: |
@@ -110,24 +127,36 @@ Auditing `DEPTODESC` and `DISTODESC` across `Viviendas` and `Población` surface
 | | Air Conditioning (`H02_5_HOG_AC`) | 141,124 | **7.49%** |
 
 ### 4.4 International Emigration Trajectory (`2014–2024`, `N = 226,808`)
-![International Emigration Trends](images/international_emigration_trends.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/international_emigration_trends.png" />
+  <source media="(prefers-color-scheme: light)" srcset="images/international_emigration_trends_light.png" />
+  <img alt="International Emigration Trends" src="images/international_emigration_trends.png" />
+</picture>
 
 - **Destination Concentration:** **85.91% (`194,849`)** of emigrants relocated to the **United States**, followed by **Spain (`9,142`, 4.03%)**, **Italy (`4,468`, 1.97%)**, **Mexico (`3,997`, 1.76%)**, and **Canada (`2,543`, 1.12%)**.
 - **Primary Drivers:** **Job Search / Employment (`129,172`, 56.95%)** dominates, followed by **Family Reunification (`33,731`, 14.87%)** and **Insecurity or Violence (`32,647`, 14.39%)**. Annual departures peaked in **2022 (`34,284`)** and **2023 (`34,168`)**.
 
 ---
 
-## 5. Unsupervised Machine Learning, OLS Regression & Vulnerability Analysis
+## 5. Unsupervised Machine Learning: K-Means++ District Segmentation
 
 ### 5.1 Selecting Optimal $k$ (WCSS Elbow & Silhouette Evaluation)
-![Elbow and Silhouette Evaluation](images/elbow_silhouette_evaluation.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/elbow_silhouette_evaluation.png" />
+  <source media="(prefers-color-scheme: light)" srcset="images/elbow_silhouette_evaluation_light.png" />
+  <img alt="Elbow and Silhouette Evaluation" src="images/elbow_silhouette_evaluation.png" />
+</picture>
 
 We standardized 8 continuous district-level indicators (`mean_schooling_yrs`, `literacy_rate_pct`, `mean_hh_assets`, `internet_hh_pct`, `piped_water_pct`, `firewood_cooking_pct`, `remittance_hh_pct`, `mean_age`) across all **262 districts** and evaluated K-Means++ across $k \in \{2, \dots, 8\}$ (50 random restarts per $k$):
 - **$k = 2$** (`WCSS = 1,445.4`, `Silhouette = 0.2724`) provides a binary urban-versus-rural split.
 - **$k = 4$** (`WCSS = 911.1`, `Silhouette = 0.2598`) captures the primary WCSS elbow before the Silhouette drop at $k = 5$ (`0.2249`), cleanly separating **transnational remittance towns (Cluster 3)** from **semi-urban commuter belts (Cluster 2)** and **high-vulnerability rural agricultural districts (Cluster 4)**.
 
 ### 5.2 Cluster Profiles & 2D SVD Principal Component Analysis
-![District K-Means Clusters and PCA](images/district_kmeans_clusters_pca.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="images/district_kmeans_clusters_pca.png" />
+  <source media="(prefers-color-scheme: light)" srcset="images/district_kmeans_clusters_pca_light.png" />
+  <img alt="District K-Means Clusters and PCA" src="images/district_kmeans_clusters_pca.png" />
+</picture>
 
 The first two principal components explain **77.91% of total variance across all 262 districts**:
 - **`PC1` (53.70% variance):** Urban Human Capital, Broadband & Infrastructure Development (`+Schooling`, `+Assets`, `+Internet`, `-Firewood`).
@@ -148,43 +177,17 @@ Compare **Cluster 2 (Semi-Urban Commuter Corridors)** and **Cluster 3 (Remittanc
 
 ---
 
-### 5.3 Econometric Validation: Multivariate OLS & 1,000-Resample Bootstrap CIs
-![OLS Regression and Standardized Bootstrap Betas](images/regression_paradox_and_loadings.png)
+## 6. Actionable Policy & Commercial Territory Recommendations
 
-To formally test the "Remittance Paradox" beyond unsupervised clustering, we fit multivariate OLS models across all **262 districts** with **1,000 non-parametric bootstrap resamples** (95% confidence intervals) predicting both **Household Assets (`0–15`)** and **Residential Broadband Penetration (%)**:
-
-| Outcome Model | $R^2$ | Adj. $R^2$ | RMSE | Adult Schooling Std $\beta$ [95% CI] | Remittance HH % Std $\beta$ [95% CI] | Urbanization Std $\beta$ [95% CI] | Piped Water Std $\beta$ [95% CI] |
-| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| **Household Assets (`0–15`)** | **0.7908** | 0.7875 | 0.3601 | **`0.7092`** `[0.5987, 0.8171]` | **`0.7088`** `[0.6302, 0.7851]` | `0.2467` `[0.1483, 0.3310]` | `0.2461` `[0.1798, 0.3079]` |
-| **Residential Broadband (%)** | **0.6313** | 0.6255 | 9.1588 | **`0.6913`** `[0.5677, 0.8094]` | **`0.5872`** `[0.4844, 0.6991]` | `0.2929` `[0.1906, 0.3940]` | `0.1012` `[0.0114, 0.1941]` |
-
-- **Empirical Takeaway:** After controlling for urbanization, adult schooling, and piped water, **remittance incidence (`std β = 0.7088`) matches formal schooling (`std β = 0.7092`) as an equally powerful standardized predictor of private household asset accumulation**, and explains a substantial share of rural broadband adoption (`std β = 0.5872`).
-- **Regression Residual Outliers (`Observed - OLS Predicted Assets`):**
-  - *Top Positive Overperformers:* **Antiguo Cuscatlán (`+1.07`)**, **Anamorós (`+0.96`, 52.4% remittances)**, **El Sauce (`+0.83`, 56.9% remittances)**, **San Lorenzo (`+0.82`)**, and **Pasaquina (`+0.76`, 50.7% remittances)**.
-  - *Top Negative Underperformers:* **San Ramón (`-0.84`)**, **San Juan Tepezontes (`-0.80`)**, **Verapaz (`-0.80`)**, **San Ildefonso (`-0.74`)**, and **Joateca (`-0.68`)**.
-
-### 5.4 Infrastructure Deprivation, Labor Commuting & 10×10 Correlation Matrix
-![Infrastructure Vulnerability, Labor Commuting and 10x10 Correlation Matrix](images/vulnerability_and_commuting_analysis.png)
-
-Incorporating four previously untapped `Población` labor-mobility and migration fields (`P05_RESI_LUGAR`, `P19_ACTIV_CAT_OCUP`, `P21_ACTIV_HORAS_TRAB`, `P22_ACTIV_UBI_NEGOCIO`) alongside a composite **Infrastructure Vulnerability Index (`0–100`)** reveals four structural dynamics:
-- **National Labor Mobility (`6.03M` Población microdata):** **31.38%** of employed workers commute outside their residential municipality, **57.99%** hold formal salaried jobs, mean workweek is **43.12 hrs**, and **6.21%** of residents lived in another municipality/country 5 years ago.
-- **Bedroom Commuter Corridors vs. Remittance Autarky:** *Cuscatancingo* and *Soyapango* exhibit >49% outbound commuting alongside ~6–8% infrastructure vulnerability, whereas *Concepción de Oriente* shows near-minimal municipal commuting with heavy remittance reliance.
-- **2D PCA Factor Loadings (`8` standardized inputs):** `PC1` weights heavily on literacy/schooling/assets/internet vs. firewood cooking; `PC2` is anchored by `remittance_hh_pct` (`+0.6640`) and `mean_age` (`+0.4154`), isolating transnational aging towns orthogonal to urban industrialization.
-
----
-
-## 6. Key Analytical Takeaways & Methodological Caveats
-
-1. **Two Distinct Orthogonal Axes of Territorial Inequality (`77.91%` PCA Variance):**
-   - `PC1` (`53.70%`) captures classic human-capital and municipal service access (schooling, literacy, durable assets, broadband vs. firewood reliance), while `PC2` (`24.21%`) captures transnational remittance incidence (`+0.6640`) and demographic aging (`+0.4154`). One-dimensional urban–rural splits collapse Clusters 3 and 4 together despite their **12.28 pp remittance gap** (`45.15%` vs. `32.87%`) and **1.07-asset gap** (`5.03` vs. `3.96`).
-2. **Remittances Act as a Private Substitute for Local Human Capital in Asset & Broadband Models:**
-   - OLS bootstrap estimation confirms that district remittance incidence (`std β = 0.7088`) carries virtually identical standardized explanatory weight to formal adult schooling (`std β = 0.7092`) for household durables (`R² = 0.7908`), though infrastructure residuals highlight large local heterogeneity (`Antiguo Cuscatlán` at `+1.07` vs. `San Ramón` at `-0.84`).
-3. **Labor Commuting Separates Urban Dormitory Belts from Core Hubs and Remittance Towns:**
-   - Nationally, `31.38%` of employed individuals work outside their residential municipality, led by suburban metropolitan districts (`Cuscatancingo`, `Soyapango` at >49% outflow) with low infrastructure vulnerability (~6–8%), whereas rural eastern remittance hubs show high household assets alongside low inter-municipal labor commuting.
-4. **Methodological Limitations & Explicit Analytical Tradeoffs:**
-   - **Ecological Inference:** District-level OLS regressions (`N = 262`) measure cross-district macro covariation rather than individual household causal returns; micro-level household regressions on `1.92M` `Hogares` rows remain a natural follow-up.
-   - **Equal-Weight District Estimation:** Both K-Means++ (`262` centroids) and OLS treat every district equally so populous metropolitan areas do not drown out peripheral districts, whereas headline KPI cards in [`index.html`](index.html) compute population/household-weighted totals.
-   - **Cross-Sectional Censoring:** Emigration (`226,808` since 2014) reflects surviving household reports recorded in 2024 and excludes entire-household departures.
+1. **Broadband & Last-Mile ISP Expansion in Cluster 3 Transnational Towns (349,341 Households):**
+   - *Finding:* Cluster 3 households already exhibit high disposable purchasing power for appliances (`5.03` assets, `45.15%` remittance receipt) and high demand for international video communication, yet residential broadband stands at `31.09%`.
+   - *Action:* Telecom and fiber/fixed-wireless ISPs should prioritize Cluster 3 municipal centers (La Unión, Morazán, Cabañas, Chalatenango) for remittance-bundled home internet and smart-device packages.
+2. **Clean Cooking (LPG) & Piped Water Infrastructure Targeting in Cluster 4 (58 Districts, 188,512 Households):**
+   - *Finding:* Across Cluster 4 rural districts, **32.68% of occupied dwellings still rely on firewood (*leña*) for cooking** and only **31.75% have piped water inside the dwelling**.
+   - *Action:* Direct municipal water infrastructure capex and clean-cooking LPG subsidies specifically to the 58 Cluster 4 districts rather than using broad department-level averages.
+3. **Technical & Vocational Upskilling Along Cluster 2 Industrial Corridors (84 Districts, 1.78M Residents):**
+   - *Finding:* Cluster 2 districts have a young working-age profile (`33.27 yrs` mean age) and high basic literacy (`90.00%`), but trail Cluster 1 in average schooling (`7.57` vs. `9.69` years) and home computer ownership (`23.94%` internet).
+   - *Action:* Locate public-private technical institutes, bilingual call-center training, and logistics parks along Cluster 2 commuter hubs (*La Libertad Centro/Norte*, *Sonsonate Centro/Este*, *San Salvador Norte/Sur*).
 
 ---
 
@@ -193,33 +196,31 @@ Incorporating four previously untapped `Población` labor-mobility and migration
 ```text
 el-salvador-census-2024-segmentation/
 ├── images/
-│   ├── dashboard_overview_preview.png            # 4-panel demographic & cluster overview banner
+│   ├── dashboard_overview_preview.png            # 4-panel executive summary hero banner
 │   ├── demographic_pyramid_and_un_projections.png # 2024 Age-Sex Pyramid + UN 1950-2100 curves
 │   ├── department_population_and_remittances.png  # 14 Departments Urban/Rural & Remittance %
 │   ├── household_assets_digital_divide.png        # 15 Household Asset penetration rates (1.92M HHs)
 │   ├── international_emigration_trends.png        # 2014-2024 Emigration wave & primary causes
 │   ├── elbow_silhouette_evaluation.png            # K-Means++ WCSS Elbow & Silhouette curve (k=2..8)
-│   ├── district_kmeans_clusters_pca.png           # 262 Districts K-Means++ scatter & 2D SVD PCA
-│   ├── regression_paradox_and_loadings.png        # OLS Model Fit & Standardized Bootstrap Betas
-│   └── vulnerability_and_commuting_analysis.png   # Vulnerability vs Commuting & 10x10 Correlation Matrix
+│   └── district_kmeans_clusters_pca.png           # 262 Districts K-Means++ scatter & 2D SVD PCA
 ├── data/
 │   └── census_summary.json                        # Aggregated metrics across 262 districts & 44 munis
 ├── sql/
 │   └── cpv2024_star_schema.sql                    # Relational Star Schema DDL & analytical views
 ├── src/
-│   └── census_analysis.py                         # Zero-extraction ZIP streaming, validation & ML/OLS
+│   └── census_analysis.py                         # Zero-extraction ZIP streaming, validation & K-Means++
 ├── index.html                                     # Self-contained AG Grid Community HTML5 Workbench
 ├── verify.mjs                                     # Automated data reconciliation & HTML5 verification suite
 ├── PRODUCT.md                                     # Product context & surface mode specification
 ├── DESIGN.md                                      # Operate-mode design tokens & typography contract
 ├── .gitignore                                     # Excludes 171.8 MB raw CPV 2024 ZIP archive
-└── README.md                                      # English Analytical Documentation & Schema Reference
+└── README.md                                      # Complete English Case Study & Schema Reference
 ```
 
 ### Run the Analysis, Verification & Publish to GitHub
 
 ```powershell
-# 1. Stream all 5 CSVs from Bases-Finales-CPV2024SV-CSV.zip & regenerate all charts (~125-145s)
+# 1. Stream all 5 CSVs from Bases-Finales-CPV2024SV-CSV.zip & regenerate all charts (~85-125s)
 uv run --with pandas --with numpy --with matplotlib python src/census_analysis.py
 
 # 2. Run the automated verification check (validates 6,029,976 population reconciliation, clusters, charts & HTML)
